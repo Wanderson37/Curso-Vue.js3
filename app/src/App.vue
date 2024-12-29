@@ -1,6 +1,8 @@
 <template>
   <TheHeader v-if="showHeader" />
   <div>
+    <img :src="imgSrc">
+
     <div v-for="obj in todos" v-bind:key="obj.id" class="todos-item">
       {{ obj.title }}
     </div>
@@ -21,6 +23,7 @@ export default {
   },
   data() {
     return {
+      imgSrc: 'https://placehold.co/150',
       todos: [
         {
           "userId": 1,
