@@ -4,5 +4,6 @@ import router from './router'
 import store from './store'
 import '@/assets/css/main.css'
 
+
 window.app = createApp(App).use(store).use(router).use(router).mount('#app')
  
