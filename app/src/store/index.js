@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import axios from 'axios';
+const apiUrl = process.env.VUE_APP_API_URL;
 
 export default createStore({
   state: {
@@ -30,7 +31,7 @@ export default createStore({
     getTodos({ commit }) {
       return new Promise((resolve) => {
         setTimeout(() => {
-          return axios.get('https://todo-list37.vercel.app/')
+          return axios.get(`${apiUrl}/todos`)
             .then((response) => {
               commit('storeTodos', response.data)
               resolve()
@@ -39,17 +40,17 @@ export default createStore({
       })
     },
     addTodo({ commit }, data) {
-      return axios.post('https://todo-list37.vercel.app/', data).then((response) => {
+      return axios.post(`${apiUrl}/todos`, data).then((response) => {
           commit('storeTodo', response.data)
       });
     },
     updateTodo({ commit }, { id, data }) {
-      return axios.put(`https://todo-list37.vercel.app/${id}`, data).then((response) => {
+      return axios.put(`${apiUrl}/todos/${id}`, data).then((response) => {
         commit('storeTodo', response.data)
       })
     },
     deleteTodo({ commit },  id) {
-      return axios.delete(`https://todo-list37.vercel.app/${id}`).then(() => {
+      return axios.delete(`${apiUrl}/todos/${id}`).then(() => {
         commit('deleteTodo', id)
       })
     }
