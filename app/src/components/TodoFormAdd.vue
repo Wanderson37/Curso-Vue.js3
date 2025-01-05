@@ -13,26 +13,31 @@ focus:outline-none" type="submit">
 </template>
 
 <script>
+import { ref } from 'vue'
+import { useStore } from 'vuex'
+
 export default {
-    data() {
-        return {
-            title:''
-        }
-    },
-    
-    methods: {
-        addTodo() {
-            if (!this.title.trim()) {
-                return;
+    setup() {
+        const title = ref()
+        const store = useStore()
+        
+        const addTodo = () => {
+            if (!title.value) {
+                return false;
             }
-            this.$store.dispatch('addTodo', {
-            title: this.title,
+            store.dispatch('addTodo', {
+            title: title.value,
             completed: false
             }).finally(() => {
-                this.title = '';
+                title.value = '';
             });
-            console.log('here', this.title);
-        },
-        },
+            console.log('here', title.value);
+        }
+        return {
+            title,
+            addTodo
+        }
+    }
+    
 }
 </script>
