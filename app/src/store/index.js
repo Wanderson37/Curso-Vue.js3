@@ -30,7 +30,7 @@ export default createStore({
     getTodos({ commit }) {
       return new Promise((resolve) => {
         setTimeout(() => {
-          return axios.get('http://localhost:3000/todos')
+          return axios.get('https://todo-list37.vercel.app/')
             .then((response) => {
               commit('storeTodos', response.data)
               resolve()
