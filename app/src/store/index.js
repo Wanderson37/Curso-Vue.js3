@@ -1,11 +1,16 @@
 import { createStore } from 'vuex'
-import axios from 'axios';
+//import axios from 'axios';
+
 
 export default createStore({
   state: {
     todos: JSON.parse(localStorage.getItem('todos')) || []
   },
   mutations: {
+    storeTodos (state, todos) {
+      state.todos = todos
+      localStorage.setItem('todos', JSON.stringify(state.todos))
+    },
     storeTodo (state, todo) {
       state.todos.push(todo)
       localStorage.setItem('todos', JSON.stringify(state.todos))
@@ -18,11 +23,21 @@ export default createStore({
       }
     },
     deleteTodo (state, id) {
-      state.todos = state.todos.filter(todo => todo.id !== id)
-      localStorage.setItem('todos', JSON.stringify(state.todos))
+      const index = state.todos.findIndex(todo => todo.id === id)
+      if (index >= 0) {
+        state.todos.splice(index, 1)
+        localStorage.setItem('todos', JSON.stringify(state.todos))
+      }
     }
   },
   actions: {
+    getTodos({ commit }) {
+      return new Promise((resolve) => {
+        const storedTodos = JSON.parse(localStorage.getItem('todos')) || []
+        commit('storeTodos', storedTodos)
+        resolve()
+      })
+    },
     addTodo ({ commit }, data) {
       const newTodo = {
         id: Date.now(),
@@ -43,6 +58,7 @@ export default createStore({
   },
   modules: {}
 })
+// export default createStore({
 //   state: {
 //     todos: []
 //   },
